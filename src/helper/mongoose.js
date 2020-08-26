@@ -35,7 +35,7 @@ const findOneAndSelect = async (collectionObj, queryObj, selectQuery, collection
 		400,
 		db_fetch_fail,
 		null,
-		{ ...fail_response_obj }
+		{ ...fail_response_obj },
 	);
 
 	return promise;
@@ -65,7 +65,7 @@ const findBulkAndSelect = async (collectionObj, queryObj, selectQuery, collectio
 		400,
 		db_fetch_fail,
 		null,
-		{ ...fail_response_obj }
+		{ ...fail_response_obj },
 	);
 
 	return promise;
@@ -93,7 +93,7 @@ const insertDocument = async (newObj, collectionName) => {
 		400,
 		db_fetch_fail,
 		null,
-		{ ...fail_response_obj }
+		{ ...fail_response_obj },
 	);
 
 	return promise;
@@ -117,7 +117,7 @@ const updateDocument = async (collectionObj, queryObj, updateFieldsObj, collecti
 	const updateResponse = await collectionObj.updateMany(
 		queryObj,
 		{ $set: updateFieldsObj },
-		{ new: true, multi: true }
+		{ new: true, multi: true },
 	);
 
 	const promise = fulfillPromise(
@@ -129,7 +129,7 @@ const updateDocument = async (collectionObj, queryObj, updateFieldsObj, collecti
 		400,
 		db_fetch_fail,
 		null,
-		{ ...fail_response_obj }
+		{ ...fail_response_obj },
 	);
 
 	return promise;
@@ -179,7 +179,7 @@ const deleteDocument = async (collectionObj, queryObj, collectionName) => {
 		400,
 		db_fetch_fail,
 		null,
-		{ ...fail_response_obj }
+		{ ...fail_response_obj },
 	);
 
 	return promise;
