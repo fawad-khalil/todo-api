@@ -1,10 +1,15 @@
 const { makeResponseObj, storeToken } = require('../../helper/utils');
+const { findOneAndSelect } = require('../../helper/mongoose');
+const { fail_response_obj } = require('../../constants');
 
 const verifyUserPassword = (obtainedPassword, email) => {
-	const fetchUser = mongooseHelper.findOneAndSelect(
+	const fetchUser = findOneAndSelect(
 		{ email },
 		{
-			firstName: 1, lastName: 1, email: 1, password: 1,
+			firstName: 1,
+			lastName: 1,
+			email: 1,
+			password: 1,
 		},
 		'User',
 	);
@@ -12,16 +17,16 @@ const verifyUserPassword = (obtainedPassword, email) => {
 	return fetchUser
 		.then((fetchUserResponse) => {
 			if (fetchUserResponse.status && fetchUserResponse.data.password === obtainedPassword) {
-				delete fetchUserResponse.data.password;
-				return fetchUserResponse;
+				const response = { ...fetchUserResponse };
+				delete response.data.password;
+				return response;
 			}
-			return makeResponseObj(400, 'User not verified.', null, resources.fail_response_obj);
+			return makeResponseObj(400, 'User not verified.', null, fail_response_obj);
 		})
-		.catch((error) => makeResponseObj(400, 'User not verified.', error, resources.fail_response_obj));
+		.catch((error) => makeResponseObj(400, 'User not verified.', error, fail_response_obj));
 };
 
 const createUserSession = async ({ email, password, shouldRemember }) => {
-	delete userCredentials.password;
 	let verifyResponse;
 
 	try {
@@ -33,7 +38,7 @@ const createUserSession = async ({ email, password, shouldRemember }) => {
 	if (verifyResponse.status) {
 		verifyResponse.data.shouldRemember = shouldRemember;
 
-		const storeTokenPromise = storeToken(userCredentials.userName, verifyResponse.data);
+		const storeTokenPromise = storeToken(email, verifyResponse.data);
 
 		return storeTokenPromise;
 	}
