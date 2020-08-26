@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const routes = require('./routes');
+const { api_prefix, responseCodes } = require('./constants');
 
 // connect to mongodb
 require('./libs/MoongooseConnection');
@@ -39,16 +40,16 @@ app.options((_req, res) => {
 	res.sendStatus(200);
 });
 
-for (const key in routes) {
+Object.keys(routes).forEach((key) => {
 	const currentRoute = routes[key];
 	/* eslint-disable-next-line */
-	console.log(`${key} ${const_resources.routes_prefix}${currentRoute.prefix}`.info);
-	app.use(const_resources.routes_prefix + currentRoute.prefix, currentRoute.route);
-}
+	console.log(`${key} ${api_prefix}${currentRoute.prefix}`.info);
+	app.use(api_prefix + currentRoute.prefix, currentRoute.router);
+});
 
 // catch 404 and forward to error handler
 app.use((_req, res) => {
-	res.status(const_resources.responseCodes.notFound).send('Path not found.');
+	res.status(responseCodes.notFound).send('Path not found.');
 });
 
 // error handler
