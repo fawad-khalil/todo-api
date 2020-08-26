@@ -48,4 +48,8 @@ module.exports = {
 	jwtEncryptionAlgo: 'RS256',
 
 	mongodb_invalid_id: 'Provided MongoDB Id is not valid.',
+
+	internal_server_error: 'Internal Server Error. Try again later!',
+
+	api_prefix: '/api',
 };
