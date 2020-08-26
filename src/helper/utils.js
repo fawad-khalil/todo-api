@@ -1,7 +1,9 @@
 const validator = require('./validator');
 const redisHelper = require('./redis');
 const jwtHelper = require('./jwt');
-const {fail_response_obj, success_response_obj, login_success, failed_redis_session} = require('../constants');
+const {
+	fail_response_obj, success_response_obj, login_success, failed_redis_session,
+} = require('../constants');
 
 const makeResponseObj = (code, message, data, sourceObj) => ({
 	...sourceObj,

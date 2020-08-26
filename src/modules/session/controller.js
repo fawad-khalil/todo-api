@@ -2,7 +2,9 @@ const { createUserSession } = require('./helper');
 const { makeResponseObj } = require('../../helper/utils');
 const { nullUndefinedValidate } = require('../../helper/validator');
 const { getValue, deleteKey } = require('../../helper/redis');
-const { responseCodes, success_response_obj, fail_response_obj } = require('../../constants');
+const {
+	responseCodes, success_response_obj, fail_response_obj, internal_server_error,
+} = require('../../constants');
 
 const signinUser = async (req, res) => {
 	const { email, password, shouldRemember } = req.body;
@@ -12,7 +14,7 @@ const signinUser = async (req, res) => {
 
 		res.status(response.code).json(response);
 	} catch (error) {
-		res.status(responseCodes.internalServerError).json('Internal Server Error.');
+		res.status(responseCodes.internalServerError).json({ message: internal_server_error, error });
 	}
 };
 
@@ -29,13 +31,18 @@ const verifySession = async (req, res) => {
 
 			res.status(response.code).json(response);
 		} else {
-			const error = makeResponseObj(responseCodes.unAuthorized, 'Session not verified.', {}, {
-				...fail_response_obj,
-			});
+			const error = makeResponseObj(
+				responseCodes.unAuthorized,
+				'Session not verified.',
+				{},
+				{
+					...fail_response_obj,
+				},
+			);
 			res.status(error.code).json(error);
 		}
 	} catch (error) {
-		res.status(responseCodes.internalServerError).json('Internal Server Error.');
+		res.status(responseCodes.internalServerError).json({ message: internal_server_error, error });
 	}
 };
 
