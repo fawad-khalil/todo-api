@@ -14,4 +14,4 @@ router.post('/', signinUser);
 /** Signout User */
 router.delete('/', deleteSession);
 
-module.exports = { router, prefix: '/session' };
+module.exports = { router, prefix: '/sessions' };
