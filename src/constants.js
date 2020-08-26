@@ -46,4 +46,6 @@ module.exports = {
 	user_model_name: 'users',
 	todo_model_name: 'todos',
 	jwtEncryptionAlgo: 'RS256',
+
+	mongodb_invalid_id: 'Provided MongoDB Id is not valid.',
 };
