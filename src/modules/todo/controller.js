@@ -3,7 +3,9 @@ const { insertDocument, updateDocumentById, findBulkAndSelect, deleteDocumentByI
 const { responseCodes, internal_server_error } = require('../../constants');
 
 const addTodo = async (req, res) => {
+	const { user } = req.context;
 	const { todo } = req.body;
+	todo.user = { ...user };
 
 	const todoDoc = new Todo(todo);
 
