@@ -8,6 +8,8 @@ const {
 	success_response_obj,
 	fail_response_obj,
 	mongodb_invalid_id,
+	DB_INSERT_SUCCESS,
+	DB_INSERT_FAIL,
 } = require('../constants');
 
 /**
@@ -87,11 +89,11 @@ const insertDocument = async (newObj, collectionName) => {
 	const promise = fulfillPromise(
 		insertResponse,
 		200,
-		collectionName + db_fetch_success,
+		`${collectionName} ${DB_INSERT_SUCCESS}`,
 		null,
 		{ ...success_response_obj },
 		400,
-		db_fetch_fail,
+		DB_INSERT_FAIL,
 		null,
 		{ ...fail_response_obj },
 	);
