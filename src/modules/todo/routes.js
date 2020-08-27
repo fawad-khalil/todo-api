@@ -2,9 +2,7 @@
 const express = require('express');
 
 /* local product packages */
-const {
-	addTodo, updateTodo, getTodo, deleteTodo,
-} = require('./controller');
+const { addTodo, updateTodo, getTodo, deleteTodo } = require('./controller');
 const { authenticate } = require('../../middleware');
 
 /* data variables */
