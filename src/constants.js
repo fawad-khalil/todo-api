@@ -25,6 +25,9 @@ module.exports = {
 	db_fetch_success: 'Found Successfully.',
 	db_fetch_fail: 'Failed to Fetch.',
 
+	DB_INSERT_SUCCESS: 'inserted successfully.',
+	DB_INSERT_FAIL: 'Insert failed.',
+
 	failed_redis_session: 'Failed to create new session. Retry!',
 
 	login_success: 'Successfully logged in.',
