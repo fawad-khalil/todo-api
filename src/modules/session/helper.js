@@ -1,9 +1,11 @@
 const { makeResponseObj, storeToken } = require('../../helper/utils');
 const { findOneAndSelect } = require('../../helper/mongoose');
 const { fail_response_obj } = require('../../constants');
+const User = require('../user/model');
 
 const verifyUserPassword = (obtainedPassword, email) => {
 	const fetchUser = findOneAndSelect(
+		User,
 		{ email },
 		{
 			firstName: 1,
@@ -11,7 +13,7 @@ const verifyUserPassword = (obtainedPassword, email) => {
 			email: 1,
 			password: 1,
 		},
-		'User',
+		'User'
 	);
 
 	return fetchUser

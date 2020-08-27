@@ -2,9 +2,7 @@ const { createUserSession } = require('./helper');
 const { makeResponseObj } = require('../../helper/utils');
 const { nullUndefinedValidate } = require('../../helper/validator');
 const { getValue, deleteKey } = require('../../helper/redis');
-const {
-	responseCodes, success_response_obj, fail_response_obj, internal_server_error,
-} = require('../../constants');
+const { responseCodes, success_response_obj, fail_response_obj, internal_server_error } = require('../../constants');
 
 const signinUser = async (req, res) => {
 	const { email, password, shouldRemember } = req.body;
@@ -18,9 +16,7 @@ const signinUser = async (req, res) => {
 	}
 };
 
-const verifySession = async (req, res) => {
-	const sessionToken = req.get('Token');
-
+const verifySessionToken = async (sessionToken) => {
 	try {
 		const fetchKey = await getValue(sessionToken);
 
@@ -29,18 +25,31 @@ const verifySession = async (req, res) => {
 				...success_response_obj,
 			});
 
-			res.status(response.code).json(response);
-		} else {
-			const error = makeResponseObj(
-				responseCodes.unAuthorized,
-				'Session not verified.',
-				{},
-				{
-					...fail_response_obj,
-				},
-			);
-			res.status(error.code).json(error);
+			return response;
 		}
+
+		const error = makeResponseObj(
+			responseCodes.unAuthorized,
+			'Session not verified.',
+			{},
+			{
+				...fail_response_obj,
+			}
+		);
+
+		return error;
+	} catch (error) {
+		return { message: internal_server_error, error, code: responseCodes.internalServerError };
+	}
+};
+
+const verifySession = async (req, res) => {
+	const sessionToken = req.get('Token');
+
+	try {
+		const response = await verifySessionToken(sessionToken);
+
+		res.status(response.code).json(response);
 	} catch (error) {
 		res.status(responseCodes.internalServerError).json({ message: internal_server_error, error });
 	}
@@ -61,7 +70,7 @@ const deleteSession = (req, res) => {
 		responseCodes.badRequest,
 		'Error occured. Retrying may help if error was unexpected.',
 		{ message: 'Error occured. Try again!' },
-		{ ...fail_response_obj },
+		{ ...fail_response_obj }
 	);
 
 	res.status(error.code).json(error);
@@ -70,5 +79,6 @@ const deleteSession = (req, res) => {
 module.exports = {
 	signinUser,
 	verifySession,
+	verifySessionToken,
 	deleteSession,
 };
