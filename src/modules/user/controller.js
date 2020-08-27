@@ -9,7 +9,7 @@ const signupUser = async (req, res) => {
 	try {
 		const insertResponse = await insertDocument(userDoc, 'User');
 
-		res.status(insertDocument.code).json(insertResponse);
+		res.status(insertResponse.code).json(insertResponse);
 	} catch (error) {
 		res.status(responseCodes.internalServerError).json({ message: internal_server_error, error });
 	}
