@@ -7,6 +7,6 @@ const router = express.Router();
 /**
  * Signups new User
  */
-router.put('/', signupUser);
+router.post('/', signupUser);
 
 module.exports = { router, prefix: '/users' };
